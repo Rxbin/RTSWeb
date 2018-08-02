@@ -1,5 +1,5 @@
 {
-    "defaultSeverity": "error",
+    "defaultSeverity": "warning",
     "extends": [
         "tslint:recommended"
     ],
@@ -19,7 +19,10 @@
         "no-trailing-whitespace": false,
         "quotemark": false,
         "member-ordering": false,
-        "no-empty": false
+        "no-empty": false,
+        "eofline": false,
+        "max-line-length": false,
+        "trailing-comma": false
     },
     "rulesDirectory": []
 }

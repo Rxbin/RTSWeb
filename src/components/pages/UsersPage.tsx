@@ -1,35 +1,29 @@
 import * as React from "react";
-
-interface IUsersPageState {
-  viewDisplayState: number;
-  timesheetRecords: ITimesheetRecord [];
-  selectedTimesheet: ITimesheetRecord;
-}
-
-enum TSStatus { CREATED, REJECTED, MGRREVIEW, CHKDGOOD, CHKDBAD }
-
-interface ITimesheetRecord {
-    oid: string;
-    ppDate: string;
-    empId: string;
-    status: TSStatus;
-}
+import { IUsersPageState } from '../interfaces/states';
+import { TSStatus, TimesheetRecord } from '../model/models';
+import { TimesheetDisplay } from '../views/TimesheetDisplay';
 
 class UsersPage extends React.Component<{}, IUsersPageState> {
 
     constructor(props: any, state: any) {
         super(props, state);
+        
         this.state = {viewDisplayState: 0, timesheetRecords: [], 
-        selectedTimesheet: {oid: '', ppDate: '', empId: '', status: TSStatus.CREATED}};
+            selectedTimesheet: {oid: '', ppDate: '', empId: '', status: TSStatus.CREATED}
+        };
 
-        let m = new Promise<number>(function(resolve, reject) {
-            const data: number = 1;
+        let m = new Promise<TimesheetRecord[]>(function(resolve, reject) {
+            const data: TimesheetRecord [] = [
+                {oid: 'A', ppDate: '01/01/2000', empId: 'A', status: TSStatus.CREATED},
+                {oid: 'B', ppDate: '02/01/2000', empId: 'B', status: TSStatus.REJECTED},
+                {oid: 'C', ppDate: '03/01/2000', empId: 'C', status: TSStatus.CHKDBAD},
+                {oid: 'D', ppDate: '04/01/2000', empId: 'D', status: TSStatus.CHKDGOOD},
+                {oid: 'E', ppDate: '05/01/2000', empId: 'E', status: TSStatus.MGRREVIEW}
+            ];
             resolve(data);
         });
 
-        m.then((result) => this.setState({viewDisplayState: result}))
-         .then(() => this.sleep(2000))
-         .then(() => this.setState({viewDisplayState: 2}));
+        m.then((result) => this.setState({viewDisplayState: 1, timesheetRecords: result}));
     }
 
     sleep(ms: number) {
@@ -40,13 +34,19 @@ class UsersPage extends React.Component<{}, IUsersPageState> {
         let content =(<div></div>);
 
         if (this.state.viewDisplayState === 1) {
-            content = (<div> Display Timesheets </div>);
+            content = (<div> 
+                            <TimesheetDisplay {...this.state} onSelectedTimesheetChanged = {this.onSelectedTimesheetChanged.bind(this)} /> 
+                       </div>);
         }
         else if (this.state.viewDisplayState === 2) {
             content = (<div> Data </div>);
         }
 
         return (<div> {content} </div>);
+    }
+
+    onSelectedTimesheetChanged(data: TimesheetRecord) {
+        this.setState({selectedTimesheet: data});
     }
 
 }
