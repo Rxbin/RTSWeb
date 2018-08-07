@@ -1,7 +1,7 @@
 {
-  "name": "hotloader",
+  "name": "rtsweb",
   "version": "1.2.0",
-  "description": "A simple template for creating react app using TypeScript with hot reload.",
+  "description": "Web version of the RTS for RIG.",
   "main": "index.js",
   "scripts": {
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}' --exclude 'src/tests/*.{ts,tsx}'",
@@ -11,11 +11,11 @@
     "clean": "rd /s/q built",
     "prepare": "tsc && webpack --progress --config webpack.prod.config.js"
   },
-  "author": "Chun Liu",
-  "license": "MIT",
+  "author": "Aaron Johnson",
+  "license": "RIG",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chunliu/typescript-react-hot-reload"
+    "url": "https://github.com/Rxbin/RTSWeb"
   },
   "dependencies": {
     "@devexpress/dx-react-core": "^1.5.1",
@@ -32,6 +32,7 @@
     "@types/react-router-dom": "4.2.7",
     "antd": "3.6.3",
     "npm": "^6.2.0",
+    "prettier": "^1.14.0",
     "react": "16.4.1",
     "react-dom": "16.4.1",
     "react-redux": "5.0.7",
@@ -54,7 +55,6 @@
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.0",
     "open-browser-webpack-plugin": "0.0.5",
-    "prettier": "1.14.0",
     "react-test-renderer": "16.4.1",
     "redux-devtools-extension": "2.13.4",
     "source-map-loader": "0.2.3",

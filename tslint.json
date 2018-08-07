@@ -22,7 +22,10 @@
         "no-empty": false,
         "eofline": false,
         "max-line-length": false,
-        "trailing-comma": false
+        "trailing-comma": false,
+        "curly": false,
+        "no-any": false,
+        "no-console": false
     },
     "rulesDirectory": []
 }
