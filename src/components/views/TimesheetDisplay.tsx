@@ -1,24 +1,15 @@
 import * as React from "react";
 import { TimesheetDisplayProps } from '../interfaces/props';
 import { Grid, Table, TableHeaderRow } from '@devexpress/dx-react-grid-material-ui';
-import { DataTypeProvider, Column } from '@devexpress/dx-react-grid';
+import { DataTypeProvider } from '@devexpress/dx-react-grid';
 import { Table as TableBase, } from '@devexpress/dx-react-grid';
+import Button from '@material-ui/core/Button';
+import { TimesheetRecord } from "../model/models";
 
- interface ExtraCellProps { 
-     className?: string; 
-     style?: React.CSSProperties; 
-     [x: string]: any;
- }
-
-interface CellDisplayProps {
-     cellProps: TableBase.DataCellProps;    
-    // value: any;
-    // row: any;
-    // column: Column;
-     cellStyle: ExtraCellProps;
-    // className?: string; 
-    // style?: React.CSSProperties; 
-    // [x: string]: any;
+interface CustomCellProps {
+    cellProps: TableBase.DataCellProps & { className?: string; style?: React.CSSProperties; [x: string]: any };
+    onEditClickedEvent: (record: TimesheetRecord) => void;
+    onDeleteClickedEvent: (record: TimesheetRecord) => void;
 }
 
 const StatusFormatter = (data: DataTypeProvider.ValueFormatterProps) => {
@@ -48,39 +39,25 @@ const StatusTypeProvider = (props: any) => (
     <DataTypeProvider formatterComponent={StatusFormatter} {...props} />
 );
 
-const HighlightedCell = (value: any, style: any) => (
-    <Table.Cell {...style} >
-      <span>
-          Edit | Delete
-      </span>
-    </Table.Cell>
-  );
-
-// const cell = (props: CellDisplayProps) => {
-//     const { column } = props.cellProps;
-//     if (column.name === 'oid') {
-//         return <HighlightedCell value={props.cellProps.value} style = {props.cellStyle}  />;
-//     }
-// 
-//     return <Table.Cell {...props.cellProps} />;
-// };
-
-const Cell = (props: TableBase.DataCellProps & { className?: string; style?: React.CSSProperties; [x: string]: any }) => {
-    const { column } = props;
-
-    if (column.name === 'oid') {
-        return <HighlightedCell {...props} />;
-    }
-
-    return <Table.Cell {...props} />;
-};
-
 export class TimesheetDisplay extends React.Component<TimesheetDisplayProps, {}> {
     constructor(props: any, state: any) {
         super(props, state);
     }
 
     render() {
+
+        const Cell = (props: TableBase.DataCellProps & { className?: string; style?: React.CSSProperties; [x: string]: any }) => {
+            const { column } = props;
+        
+            if (column.name === 'oid') {
+                return <CustomCell cellProps={props} 
+                                       onEditClickedEvent={this.onEditClicked.bind(this)} 
+                                       onDeleteClickedEvent={this.onDeleteClicked.bind(this)}/>;
+            }
+        
+            return <Table.Cell {...props} />;
+        };
+
         let content = ( 
             <Grid rows={this.props.timesheetRecords} 
                    columns = {[
@@ -90,15 +67,47 @@ export class TimesheetDisplay extends React.Component<TimesheetDisplayProps, {}>
                     { name: 'status', title: 'Status' },
                     ]}>
                 <StatusTypeProvider for={['status']} />
-                <Table cellComponent={Cell}/>
+                <Table cellComponent={Cell} />
                 <TableHeaderRow />
             </Grid>
         );
 
         return (
             <div> 
-                {content}
+                { content }
             </div>
+        );
+    }
+
+    onEditClicked(record: TimesheetRecord) {
+        alert(record.oid);
+    }
+
+    onDeleteClicked(record: TimesheetRecord) {
+        alert(record.oid);        
+    }
+}
+
+class CustomCell extends React.Component<CustomCellProps, {}> {
+    constructor(props: any, state: any) {
+        super(props, state);
+    }
+
+    render() {
+        const that = this.props;
+        let g: TimesheetRecord = that.cellProps.row;
+                 
+        return (            
+        <Table.Cell {...that.cellProps} >
+            <div>
+              <Button size="small" name="editbutton" onClick={that.onEditClickedEvent.bind(this, g)}>
+                  EDIT
+              </Button>
+              <Button size="small" name="deletebutton" onClick={that.onDeleteClickedEvent.bind(this, g)}>
+                  Delete
+              </Button>  
+            </div>
+          </Table.Cell>
         );
     }
 }
