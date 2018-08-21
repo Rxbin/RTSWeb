@@ -1,8 +1,18 @@
-export enum TSStatus { CREATED, REJECTED, MGRREVIEW, CHKDGOOD, CHKDBAD }
-  
+export enum TSStatus {
+  CREATED,
+  REJECTED,
+  MGRREVIEW,
+  CHKDGOOD,
+  CHKDBAD
+}
+
 export interface TimesheetRecord {
-    oid: string;
-    ppDate: string;
-    empId: string;
-    status: TSStatus;
+  oid: string;
+  ppDate: string;
+  empId: string;
+  status: TSStatus;
+}
+
+export interface TimesheetJobEntry {
+  jobCode: string;
 }
