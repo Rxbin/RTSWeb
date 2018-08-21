@@ -1,6 +1,6 @@
 # RTS Web
 
-RTS Web is a typscript application for managing the employees timesheets for Richard Industrial Group.
+RTS Web is an application for managing employee's timesheets for Richard Industrial Group via the Web.
 
 ## License
 

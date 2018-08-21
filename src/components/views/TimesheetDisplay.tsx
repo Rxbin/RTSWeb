@@ -48,28 +48,43 @@ export class TimesheetDisplay extends React.Component<TimesheetDisplayProps, {}>
 
         const Cell = (props: TableBase.DataCellProps & { className?: string; style?: React.CSSProperties; [x: string]: any }) => {
             const { column } = props;
-        
+            
             if (column.name === 'oid') {
                 return <CustomCell cellProps={props} 
-                                       onEditClickedEvent={this.onEditClicked.bind(this)} 
-                                       onDeleteClickedEvent={this.onDeleteClicked.bind(this)}/>;
+                                   onEditClickedEvent={this.onEditClicked.bind(this)} 
+                                   onDeleteClickedEvent={this.onDeleteClicked.bind(this)} />;
             }
         
             return <Table.Cell {...props} />;
         };
 
-        let content = ( 
-            <Grid rows={this.props.timesheetRecords} 
-                   columns = {[
-                    { name: 'oid', title: 'ACTIONS'},
-                    { name: 'ppDate', title: 'Date' },
-                    { name: 'empId', title: 'Employee ID' },
-                    { name: 'status', title: 'Status' },
-                    ]}>
-                <StatusTypeProvider for={['status']} />
-                <Table cellComponent={Cell} />
-                <TableHeaderRow />
-            </Grid>
+        // This needs CSS help..
+        // #CSS
+        let content = (
+            <div>
+                <h1>
+                    My Timesheets    
+                </h1>
+                &nbsp;
+                <Button size="small" color="primary" name="createbutton" variant="contained" onClick={this.onCreateClicked.bind(this)}>
+                  CREATE
+                </Button>
+                &nbsp; 
+                <Button size="small" color="primary" name="refreshbutton" variant="contained" onClick={this.onRefreshClicked.bind(this)}>
+                  REFRESH
+                </Button>
+                <Grid rows={this.props.timesheetRecords} 
+                       columns = {[
+                        { name: 'oid', title: 'ACTIONS'},
+                        { name: 'ppDate', title: 'Date' },
+                        { name: 'empId', title: 'Employee ID' },
+                        { name: 'status', title: 'Status' },
+                        ]}>
+                    <StatusTypeProvider for={['status']} />
+                    <Table cellComponent={Cell} />
+                    <TableHeaderRow />
+                </Grid>
+            </div>
         );
 
         return (
@@ -80,11 +95,19 @@ export class TimesheetDisplay extends React.Component<TimesheetDisplayProps, {}>
     }
 
     onEditClicked(record: TimesheetRecord) {
-        alert(record.oid);
+        this.props.onSelectedTimesheetChanged(record);
     }
 
     onDeleteClicked(record: TimesheetRecord) {
         alert(record.oid);        
+    }
+
+    onCreateClicked() {
+        alert("CREATE");
+    }
+
+    onRefreshClicked() {
+        alert("REFRESH");
     }
 }
 
@@ -95,16 +118,16 @@ class CustomCell extends React.Component<CustomCellProps, {}> {
 
     render() {
         const that = this.props;
-        let g: TimesheetRecord = that.cellProps.row;
+        let record: TimesheetRecord = that.cellProps.row;
                  
         return (            
         <Table.Cell {...that.cellProps} >
             <div>
-              <Button size="small" name="editbutton" onClick={that.onEditClickedEvent.bind(this, g)}>
+              <Button size="small" name="editbutton" onClick={that.onEditClickedEvent.bind(this, record)}>
                   EDIT
               </Button>
-              <Button size="small" name="deletebutton" onClick={that.onDeleteClickedEvent.bind(this, g)}>
-                  Delete
+              <Button size="small" name="deletebutton" onClick={that.onDeleteClickedEvent.bind(this, record)}>
+                  DELETE
               </Button>  
             </div>
           </Table.Cell>

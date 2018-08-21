@@ -2,6 +2,7 @@ import * as React from 'react';
 import { IUsersPageState } from '../interfaces/states';
 import { TSStatus, TimesheetRecord } from '../model/models';
 import { TimesheetDisplay } from '../views/TimesheetDisplay';
+import { EditTimesheetDisplay } from '../views/EditTimesheetDisplay';
 
 class UsersPage extends React.Component<{}, IUsersPageState> {
   constructor(props: any, state: any) {
@@ -52,7 +53,7 @@ class UsersPage extends React.Component<{}, IUsersPageState> {
         }
       ];
 
-      resolve(data);      
+      resolve(data);
     });
 
     m.then(result =>
@@ -70,14 +71,19 @@ class UsersPage extends React.Component<{}, IUsersPageState> {
         </div>
       );
     } else if (this.state.viewDisplayState === 2) {
-        content = <div> Data </div>;
+        content = (
+          <div> 
+            <EditTimesheetDisplay {...this.state} onSelectedTimesheetChanged={this.onSelectedTimesheetChanged.bind(this)} />
+          </div>
+        );
     }
 
     return <div> {content} </div>;
   }
 
-  onSelectedTimesheetChanged(data: TimesheetRecord) {
-    this.setState({ selectedTimesheet: data });
+  onSelectedTimesheetChanged(data: TimesheetRecord) {    
+    if(data.oid !== null)
+      this.setState({ selectedTimesheet: data, viewDisplayState: 2 });
   }
 }
 
