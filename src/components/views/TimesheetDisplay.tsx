@@ -76,9 +76,9 @@ export class TimesheetDisplay extends React.Component<TimesheetDisplayProps, {}>
                 <Grid rows={this.props.timesheetRecords} 
                        columns = {[
                         { name: 'oid', title: 'ACTIONS'},
-                        { name: 'ppDate', title: 'Date' },
-                        { name: 'empId', title: 'Employee ID' },
-                        { name: 'status', title: 'Status' },
+                        { name: 'ppDate', title: 'DATE' },
+                        { name: 'empId', title: 'EMP ID' },
+                        { name: 'status', title: 'STATUS' },
                         ]}>
                     <StatusTypeProvider for={['status']} />
                     <Table cellComponent={Cell} />

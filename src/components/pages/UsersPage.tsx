@@ -81,9 +81,11 @@ class UsersPage extends React.Component<{}, IUsersPageState> {
     return <div> {content} </div>;
   }
 
-  onSelectedTimesheetChanged(data: TimesheetRecord) {    
+  onSelectedTimesheetChanged(data: TimesheetRecord) {
     if(data.oid !== null)
       this.setState({ selectedTimesheet: data, viewDisplayState: 2 });
+    else
+      this.setState({ selectedTimesheet: data, viewDisplayState: 1 });
   }
 }
 

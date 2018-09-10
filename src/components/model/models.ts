@@ -14,5 +14,20 @@ export interface TimesheetRecord {
 }
 
 export interface TimesheetJobEntry {
-  jobCode: string;
+  timesheetRecordId: string; // OID?
+  ejc: string;
+  p_fri: number;
+  sat: number;
+  sun: number;
+  mon: number;
+  tue: number;
+  wed: number;
+  thu: number;
+  fri: number;
+  rgHrs: number; // Computed?
+  stOT: number; // Computed?
+  prOT: number; // Computed?
+  dblTime: number;
+  comment: string;
+  workOrder: string;
 }

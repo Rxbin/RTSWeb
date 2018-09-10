@@ -27,7 +27,8 @@
         "no-any": false,
         "no-console": false,
         "max-classes-per-file": false,
-        "no-unused-expression": false
+        "no-unused-expression": false,
+        "no-consecutive-blank-lines": false
     },
     "rulesDirectory": []
 }
